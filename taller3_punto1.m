@@ -1,33 +1,23 @@
-%Taller 2 
+%Taller 3 
 %Integrantes: Santiago Farias- Gabriela Rojas
-M = 1000;
-N = 1000;
-r = 200;
-circulo(M,r)
-rectangulo(M,N)
+I = imread('img1.png');
+IG = rgb2gray(I);
 
-function circulo(M,r)
-xc = round(M/2);
-yc = round(M/2);
-a = zeros(M);
-r2 = r;
-while r2 > -1
-     for i = 0:pi/(r^2):2*pi
-         x = round(r2 * cos(i));
-         y = round(r2 * sin(i));
-         a(x+ xc,y+ yc)= 1;
-     end
-     r2 = r2-1;
-end
+imshow(IG);
 
-subplot(1,2,1);
-imshow(a);
-title('Circulo');
-end
+n=3;
 
-function rectangulo(M,N)
-rec = ones(M, N);
-subplot(1,2,2);
-imshow(rec);
-title('Rectangulo');
-end
+mascara = ones(n);
+
+IGm=padarray(IG,[1 1],0,'both');
+
+
+IG2=IGm(1:3,1:3);
+
+IG2=double(IG2);
+
+IG3= IG2.* mascara;
+
+C=sum(IG3,'all');
+
+IG4(1,1)=C;
