@@ -3,35 +3,53 @@
 I = imread('img1.png');
 IG = rgb2gray(I);
 
-IGm=padarray(IG,[5 5],0,'both');
 
-ar=double(IGm(:,:,1));
-s=size(IGm);
-arc=IGm*0;
+n=21;
 
 
-n=9;
+pad=round(n/2)-1;
+
+IGm=padarray(IG,[pad pad],0,'both');
+
+CopIGm=double(IGm);%copia imagen
+[fila,colum]=size(IGm);%tamaño de la imagen
+IGmF=IGm*0;%Matriz final en 0
+
+
+
 mascara = ones(n);
-gauss= [1 4 7 4 1,4 16 26 16 4, 7 26 41 26 7, 4 16 26 16 4,1 4 7 4 1]/273;
+smasc=sum(mascara,'all');
+gauss= [1 2 1,2 4 2, 1 2 1]/16;
 
 
 
 
-for i=5:s(1)-4
-    for j= 5:s(2)-4
-    ventana=ar(i-4:i+4, j-4:j+4);
-    prod=ventana .* (mascara/81);
-    pix=sum(sum(prod));
-    arc(i,j)=pix;
+for i=pad+1:1:fila-pad
+    for j= pad+1:1:colum-pad
+    ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
+    prod=ventana .* (mascara/smasc);
+    sprod=sum(prod,'all'); 
+    IGmF(i,j)=sprod;
+    
     end
 end
+
+ filainf = fila-pad-(pad-1);
+ columfin = colum-pad-(pad-1);
+
+ IGmF(1:pad,:)=[];
+ IGmF(filainf:filainf+(pad-1),:)=[];
+  
+ IGmF(:,1:pad)=[];
+ IGmF(:,columfin:columfin+(pad-1))=[];
+
 
 
 figure(1)
 subplot(1,2,1)
 imshow(IG);
 subplot(1,2,2)
-imshow(arc);
+imshow(IGmF);
 
 
 
