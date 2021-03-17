@@ -3,24 +3,35 @@
 I = imread('img1.png');
 IG = rgb2gray(I);
 
+IGm=padarray(IG,[5 5],0,'both');
 
-
-n=3;
-mascara = ones(n);
-
-
-IGm=padarray(IG,[b b],0,'both');
-
+ar=double(IGm(:,:,1));
 s=size(IGm);
-for i=2:s(1)-1
-    for j= 2:s(2)-1
-    ventana=
+arc=IGm*0;
+
+
+n=7;
+mascara = ones(n);
+gauss= [1 4 7 4 1,4 16 26 16 4, 7 26 41 26 7, 4 16 26 16 4,1 4 7 4 1]/273;
+
+
+
+
+for i=3:s(1)-2
+    for j= 3:s(2)-2
+    ventana=ar(i-2:i+2, j-2:j+2);
+    prod=ventana .* (mascara/25);
+    pix=sum(sum(prod));
+    arc(i,j)=pix;
     end
 end
 
 
-
-imshow(IGm);
+figure(1)
+subplot(1,2,1)
+imshow(IG);
+subplot(1,2,2)
+imshow(arc);
 
 
 

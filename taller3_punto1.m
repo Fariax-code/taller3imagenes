@@ -2,28 +2,36 @@
 %Integrantes: Santiago Farias- Gabriela Rojas
 I = imread('img1.png');
 IG = rgb2gray(I);
-IGm2=IG*0;
 
+IGm=padarray(IG,[5 5],0,'both');
 
-n=3;
-mascara = uint8(ones(n));
-gauss= [1 2 1;2 4 2; 1 2 1]/16;
-
-IGm=padarray(IG,[b b],0,'both');
-
+ar=double(IGm(:,:,1));
 s=size(IGm);
-for i=2:s(1)-1
-    for j= 2:s(2)-1
-    ventana=IGm(i-1:i+1, j-1:j+1);
-    prod=ventana .* mascara;
+arc=IGm*0;
+
+
+n=9;
+mascara = ones(n);
+gauss= [1 4 7 4 1,4 16 26 16 4, 7 26 41 26 7, 4 16 26 16 4,1 4 7 4 1]/273;
+
+
+
+
+for i=5:s(1)-4
+    for j= 5:s(2)-4
+    ventana=ar(i-4:i+4, j-4:j+4);
+    prod=ventana .* (mascara/81);
     pix=sum(sum(prod));
-    IGm2(i,j)=pix;
+    arc(i,j)=pix;
     end
 end
 
 
-
-imshow(IGm2);
+figure(1)
+subplot(1,2,1)
+imshow(IG);
+subplot(1,2,2)
+imshow(arc);
 
 
 
