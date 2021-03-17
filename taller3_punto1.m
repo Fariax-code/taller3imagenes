@@ -20,20 +20,26 @@ IG3= IG2.* mascara;
 
 C=sum(IG3,'all');
 
-IG4(1,1)=C;
+% IG4(1,1)=C;
+% 
+% [z,y] = find(IGm==53);
 
-[z,y] = find(IGm==53);
-
-filtro=arrayfun(@(x) calfiltro(IGm),IGm);
+filtro=arrayfun(@(x) calfiltro(x),IGm);
 
 
 
-function calfiltro(IGr)
 
-if IGr ~= 0
-  [z,y] = find(IGr);
-  M(1,1)=x(z+1,y+1);
-end
+
+function calfiltro(x)
+
+
+numel(find(x==53));
+
+
+% if IGr ~= 0
+%   [z,y] = find(IGr);
+%   M(1,1)=x(z+1,y+1);
+% end
 
 end
 
