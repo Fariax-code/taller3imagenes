@@ -23,7 +23,6 @@ C=sum(IG3,'all');
 IG4(1,1)=C;
 
 [z,y] = find(IGm==53);
-
 filtro=arrayfun(@(x) calfiltro(IGm),IGm);
 
 
