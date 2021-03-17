@@ -24,13 +24,13 @@ C=sum(IG3,'all');
 % 
 % [z,y] = find(IGm==53);
 
-filtro=arrayfun(@(x) calfiltro(),IGm);
+x = arrayfun(@(x1)calfiltro(x1), your_structure);
 
 
 
 
 
-function calfiltro()
+function v=calfiltro(x)
 
 
 numel(find(x==53));

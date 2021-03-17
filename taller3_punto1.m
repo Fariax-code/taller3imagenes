@@ -24,16 +24,16 @@ C=sum(IG3,'all');
 % 
 % [z,y] = find(IGm==53);
 
-filtro=arrayfun(@(x) calfiltro(x),IGm);
+filtro = arrayfun(@(x1)calfiltro(x1), IGm);
 
 
 
 
 
-function calfiltro(x)
+function v=calfiltro(x)
 
 
-numel(find(x==53));
+v= numel(find(x==53));
 
 
 % if IGr ~= 0
