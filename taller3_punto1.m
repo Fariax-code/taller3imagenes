@@ -21,3 +21,10 @@ IG3= IG2.* mascara;
 C=sum(IG3,'all');
 
 IG4(1,1)=C;
+
+filtro=arrayfun(@(x) calfiltro(),IGm);
+
+function calfiltro()
+
+
+end
