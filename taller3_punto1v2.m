@@ -4,65 +4,56 @@ I = imread('img1.png');
 IG = rgb2gray(I);
 
 
-n=100;
+m=21;
 
+filtrando(IG,m);
+
+function imagen = filtrando(I,n)
 resto=mod(n,2);%MAtriz par o impar
-
-if resto==0
-    comp=1;%par
-else
-    comp=0;%impar
-end
-
-%Uso de filas de ceros de acuerdo a la matriz
-if comp==1
-    pad=round(n/2);
-elseif comp==0
-    pad=round(n/2)-1;
-end
-
-    
-
-%Agregar filas y columnas de ceros.
-IGm=padarray(IG,[pad pad],0,'both');
-
-CopIGm=double(IGm);%copia imagen
-[fila,colum]=size(IGm);%tamaño de la imagen
-IGmF=IGm*0;%Matriz final en 0
-
-
-% sigma = 4;
-% [h1, h2] = meshgrid(-(n-1)/2:(n-1)/2, -(n-1)/2:(n-1)/2);
-% hg = exp(- (h1.^2+h2.^2) / (2*sigma^2));
-% gauss = hg ./ sum(hg(:));
-
-mascara = ones(n);%mascara a operar 
-smasc=sum(mascara,'all');%sumatoria elementos de la matriz
-% gauss= [1 4 7 4 1 ; 4 16 26 16 4 ; 7 26 41 26 7 ; 4 16 26 16 4 ; 1 4 7 4 1];
-% sgauss=sum(gauss,'all');
-kernel=mascara/smasc;%Hallar matriz promedio
-
-
-%For para recorrer filas y columnas
-for i=pad+1:1:fila-pad
-    for j= pad+1:1:colum-pad
-     
-     %elegir ventana matriz de acuerdo si es par o impar   
-    if comp==1%par
-        ventana=CopIGm(i-(pad-1):i+pad, j-(pad-1):j+pad);
-    elseif comp==0%impar
-        ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
+    if resto==0
+        comp=1;%par
+    else
+        comp=0;%impar
     end
-    
-    prod=ventana .* kernel;%Producto punto de la ventana con la mascara
-    sprod=sum(prod,'all');%Sumatoria elementos matriz producto
-    IGmF(i,j)=sprod; %Nuevo valor del pixel
-    
+
+    %Uso de filas de ceros de acuerdo a la matriz
+    if comp==1
+        pad=round(n/2);
+    elseif comp==0
+        pad=round(n/2)-1;
     end
-end
+
+    %Agregar filas y columnas de ceros.
+    IGm=padarray(I,[pad pad],0,'both');
+
+    CopIGm=double(IGm);%copia imagen
+    [fila,colum]=size(IGm);%tamaño de la imagen
+    IGmF=IGm*0;%Matriz final en 0
 
 
-%eliminar filas y columnas de 0
+    mascara = ones(n);%mascara a operar 
+    smasc=sum(mascara,'all');%sumatoria elementos de la matriz
+    kernel=mascara/smasc;%Hallar matriz promedio
+
+       %For para recorrer filas y columnas
+        for i=pad+1:1:fila-pad
+            for j= pad+1:1:colum-pad
+
+                     %elegir ventana matriz de acuerdo si es par o impar   
+                    if comp==1%par
+                        ventana=CopIGm(i-(pad-1):i+pad, j-(pad-1):j+pad);
+                    elseif comp==0%impar
+                        ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
+                    end
+
+            prod=ventana .* kernel;%Producto punto de la ventana con la mascara
+            sprod=sum(prod,'all');%Sumatoria elementos matriz producto
+            IGmF(i,j)=sprod; %Nuevo valor del pixel
+
+            end
+        end
+
+ %eliminar filas y columnas de 0
  filainf = fila-pad-(pad-1);
  columfin = colum-pad-(pad-1);
 
@@ -71,14 +62,50 @@ end
   
  IGmF(:,1:pad)=[];%eliminar columnas de la izquierda 
  IGmF(:,columfin:columfin+(pad-1))=[];%eliminar columnas de la derecha 
+ 
+ imagen=IGmF;
+ 
+ %pintar imagenes
+    subplot(1,2,1)
+    imshow(I);
+    subplot(1,2,2)
+    imshow(imagen);
+ 
+end
 
 
-%pintar imagenes
-figure(1)
-subplot(1,2,1)
-imshow(IG);
-subplot(1,2,2)
-imshow(IGmF);
+
+
+
+
+
+
+    
+
+
+
+
+
+
+% sigma = 4;
+% [h1, h2] = meshgrid(-(n-1)/2:(n-1)/2, -(n-1)/2:(n-1)/2);
+% hg = exp(- (h1.^2+h2.^2) / (2*sigma^2));
+% gauss = hg ./ sum(hg(:));
+
+% gauss= [1 4 7 4 1 ; 4 16 26 16 4 ; 7 26 41 26 7 ; 4 16 26 16 4 ; 1 4 7 4 1];
+% sgauss=sum(gauss,'all');
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
