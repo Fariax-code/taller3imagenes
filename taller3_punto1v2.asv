@@ -29,16 +29,17 @@ smasc=sum(mascara,'all');
 kernel=mascara/smasc;
 
 
-% 
-% for i=pad+1:1:fila-pad
-%     for j= pad+1:1:colum-pad
-%     ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
+
+for i=pad+1:1:fila-pad
+    for j= pad+1:1:colum-pad
+    ventana=CopIGm(i-(pad-1):i+pad, j-pad:j+pad);
 %     prod=ventana .* kernel;
 %     sprod=sum(prod,'all'); 
 %     IGmF(i,j)=sprod;
 %     
-%     end
-% end
+    end
+end
+
 
 % %eliminar filas y columnas de 0
 %  filainf = fila-pad-(pad-1);
