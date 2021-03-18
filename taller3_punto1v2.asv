@@ -4,11 +4,24 @@ I = imread('img1.png');
 IG = rgb2gray(I);
 
 
-n=6;
+n=100;
 
+resto=mod(n,2);%MAtriz par o impar
 
+if resto==0
+    comp=1;%par
+else
+    comp=0;%impar
+end
 
-pad=round(n/2);
+if comp==1
+    pad=round(n/2);
+elseif comp==0
+    pad=round(n/2)-1;
+end
+
+    
+
 
 IGm=padarray(IG,[pad pad],0,'both');
 
@@ -32,32 +45,40 @@ kernel=mascara/smasc;
 
 for i=pad+1:1:fila-pad
     for j= pad+1:1:colum-pad
-    ventana=CopIGm(i-(pad-1):i+pad, j-pad:j+pad);
-%     prod=ventana .* kernel;
-%     sprod=sum(prod,'all'); 
-%     IGmF(i,j)=sprod;
-%     
+        
+    if comp==1
+        
+        ventana=CopIGm(i-(pad-1):i+pad, j-(pad-1):j+pad);
+    elseif comp==0
+        
+        ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
+    end
+    
+    prod=ventana .* kernel;
+    sprod=sum(prod,'all'); 
+    IGmF(i,j)=sprod;
+    
     end
 end
 
 
-% %eliminar filas y columnas de 0
-%  filainf = fila-pad-(pad-1);
-%  columfin = colum-pad-(pad-1);
-% 
-%  IGmF(1:pad,:)=[];
-%  IGmF(filainf:filainf+(pad-1),:)=[];
-%   
-%  IGmF(:,1:pad)=[];
-%  IGmF(:,columfin:columfin+(pad-1))=[];
+%eliminar filas y columnas de 0
+ filainf = fila-pad-(pad-1);
+ columfin = colum-pad-(pad-1);
+
+ IGmF(1:pad,:)=[];
+ IGmF(filainf:filainf+(pad-1),:)=[];
+  
+ IGmF(:,1:pad)=[];
+ IGmF(:,columfin:columfin+(pad-1))=[];
 
 
 
 figure(1)
 subplot(1,2,1)
 imshow(IG);
-% subplot(1,2,2)
-% imshow(IGmF);
+subplot(1,2,2)
+imshow(IGmF);
 
 
 

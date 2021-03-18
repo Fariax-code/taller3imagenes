@@ -6,7 +6,7 @@ IG = rgb2gray(I);
 
 n=100;
 
-resto=mod(n,2);
+resto=mod(n,2);%MAtriz par o impar
 
 if resto==0
     comp=1;%par
@@ -14,6 +14,7 @@ else
     comp=0;%impar
 end
 
+%Uso de filas de ceros de acuerdo a la matriz
 if comp==1
     pad=round(n/2);
 elseif comp==0
@@ -22,7 +23,7 @@ end
 
     
 
-
+%Agregar filas y columnas de ceros.
 IGm=padarray(IG,[pad pad],0,'both');
 
 CopIGm=double(IGm);%copia imagen
@@ -35,28 +36,27 @@ IGmF=IGm*0;%Matriz final en 0
 % hg = exp(- (h1.^2+h2.^2) / (2*sigma^2));
 % gauss = hg ./ sum(hg(:));
 
-mascara = ones(n);
-smasc=sum(mascara,'all');
+mascara = ones(n);%mascara a operar 
+smasc=sum(mascara,'all');%sumatoria elementos de la matriz
 % gauss= [1 4 7 4 1 ; 4 16 26 16 4 ; 7 26 41 26 7 ; 4 16 26 16 4 ; 1 4 7 4 1];
 % sgauss=sum(gauss,'all');
-kernel=mascara/smasc;
+kernel=mascara/smasc;%Hallar matriz promedio
 
 
-
+%For para recorrer filas y columnas
 for i=pad+1:1:fila-pad
     for j= pad+1:1:colum-pad
-        
-    if comp==1
-        
+     
+     %elegir ventana matriz de acuerdo si es par o impar   
+    if comp==1%par
         ventana=CopIGm(i-(pad-1):i+pad, j-(pad-1):j+pad);
-    elseif comp==0
-        
+    elseif comp==0%impar
         ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
     end
     
-    prod=ventana .* kernel;
-    sprod=sum(prod,'all'); 
-    IGmF(i,j)=sprod;
+    prod=ventana .* kernel;%Producto punto de la ventana con la mascara
+    sprod=sum(prod,'all');%Sumatoria elementos matriz producto
+    IGmF(i,j)=sprod; %Nuevo valor del pixel
     
     end
 end
@@ -66,14 +66,14 @@ end
  filainf = fila-pad-(pad-1);
  columfin = colum-pad-(pad-1);
 
- IGmF(1:pad,:)=[];
- IGmF(filainf:filainf+(pad-1),:)=[];
+ IGmF(1:pad,:)=[];%eliminar filas superiores 
+ IGmF(filainf:filainf+(pad-1),:)=[];%eliminar filas inferiores
   
- IGmF(:,1:pad)=[];
- IGmF(:,columfin:columfin+(pad-1))=[];
+ IGmF(:,1:pad)=[];%eliminar columnas de la izquierda 
+ IGmF(:,columfin:columfin+(pad-1))=[];%eliminar columnas de la derecha 
 
 
-
+%pintar imagenes
 figure(1)
 subplot(1,2,1)
 imshow(IG);
