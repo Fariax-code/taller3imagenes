@@ -1,17 +1,36 @@
 %Taller 3,Punto1 
 %Integrantes: Santiago Farias- Gabriela Rojas
-I = imread('messi.jpg');
+I = imread('img1.png');
 IG = rgb2gray(I);
 
 
 
+x=-2:2;
+y=-2:2;
+
+[s,t]=ndgrid(x,y);
 
 
-n=143;
-sigma=7;
+m=3;
+sigma=1;
+
+hg = exp(- (s.^2+t.^2) / (2*sigma^2));
 
 
-resto=mod(n,2);%Matriz par o impar
+
+filtrando(IG,m);
+%pintar imagenes
+    subplot(1,2,1)
+    imshow(IG);
+    subplot(1,2,2)
+    
+    global imagen;
+    imshow(imagen);
+    
+function filtrando(I,n)
+
+
+resto=mod(n,2);%MAtriz par o impar
     if resto==0
         comp=1;%par
     else
@@ -24,50 +43,18 @@ resto=mod(n,2);%Matriz par o impar
     elseif comp==0
         pad=round(n/2)-1;
     end
-    
+
     %Agregar filas y columnas de ceros.
-    IGm=padarray(IG,[pad pad],0,'both');
-    
-    %'both','symmetric'
-  
-    
-    %mascara media
-    mascara = ones(n);%mascara a operar 
-    smasc=sum(mascara,'all');%sumatoria elementos de la matriz
-    kernel=mascara/smasc;%Hallar matriz promedio
-
-
-    %calcular mascara gauss
-    x=-pad:pad;
-    y=-pad:pad;
-    K=1;
-    [s,t]=ndgrid(x,y);
-    gauss = K*exp(- (s.^2+t.^2) / (2*sigma^2));%ecuacion caracteristica
-    sumgauss=sum(gauss,'all');
-    kernelgauss=gauss/sumgauss;
-    
-    %Pascal
-    
-    
-    
-
-
-filtrando(IGm,kernelgauss,pad,comp);
-
-%pintar imagenes
-    subplot(1,2,1)
-    imshow(IG);
-    subplot(1,2,2)
-    
-    global imagen;
-    imshow(imagen);
-    
-function filtrando(IGm,mascara,pad,comp)
-    
+    IGm=padarray(I,[pad pad],0,'both');
 
     CopIGm=double(IGm);%copia imagen
     [fila,colum]=size(IGm);%tamaño de la imagen
     IGmF=IGm*0;%Matriz final en 0
+
+  
+    mascara = ones(n);%mascara a operar 
+    smasc=sum(mascara,'all');%sumatoria elementos de la matriz
+    kernel=mascara/smasc;%Hallar matriz promedio
 
        %For para recorrer filas y columnas
         for i=pad+1:1:fila-pad
@@ -80,7 +67,7 @@ function filtrando(IGm,mascara,pad,comp)
                         ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
                     end
 
-            prod=ventana .* mascara;%Producto punto de la ventana con la mascara
+            prod=ventana .* kernel;%Producto punto de la ventana con la mascara
             sprod=sum(prod,'all');%Sumatoria elementos matriz producto
             IGmF(i,j)=sprod; %Nuevo valor del pixel
 
@@ -115,7 +102,14 @@ end
 
 
 
+%n=3;
+% sigma = 1;
+% [h1, h2] = meshgrid(-(n-1)/2:(n-1)/2, -(n-1)/2:(n-1)/2);
+% hg = exp(- (h1.^2+h2.^2) / (2*sigma^2));
+% gauss = hg ./ sum(hg(:));
 
+% gauss= [1 4 7 4 1 ; 4 16 26 16 4 ; 7 26 41 26 7 ; 4 16 26 16 4 ; 1 4 7 4 1];
+% sgauss=sum(gauss,'all');
 
 
 
@@ -179,4 +173,3 @@ end
 % % end
 % 
 % end
-
