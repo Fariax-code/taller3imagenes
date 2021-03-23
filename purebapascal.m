@@ -3,29 +3,39 @@
 % w = conv(u,z);
 % 
 % m=3;
+
 % % convolution
 % 
 u = [1 1];
 z = [1 1];
-nivel=11;
-trianpascal(nivel-2,u,z);
-global nivelfinal
-num=nivelfinal;
+n=5;
+
+
+
+
+trianpascal(n-2,u,z);
+
+global mascarapas
+num=mascarapas.*reshape(mascarapas,[],1);
+mascarapascal=num/sum(num,'all');
 
 
 
 
 function trianpascal(number,s1,s2)
 
-    global nivelfinal
+   global mascarapas
     if number==1
         nivelfinal=conv(s1,s2);
+        mascarapas=nivelfinal;
     else
         s2=conv(s1,s2);
-        trianpascal(number-1,s1,s2)
+        trianpascal(number-1,s1,s2);
     end
-
+    
 end
+
+
 
 
 

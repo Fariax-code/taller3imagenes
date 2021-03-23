@@ -1,17 +1,16 @@
 %Taller 3,Punto1 
 %Integrantes: Santiago Farias- Gabriela Rojas
-I = imread('gato.PNG');
+I = imread('ruidosalp.jpg');
 IG = rgb2gray(I);
 
 
 
- n=11;
+ n=5;
  pad=round(n/2)-1;
  
   %Agregar filas y columnas de ceros.
-    IGm=padarray(IG,[pad pad],0,'both');
-
-filtromedia(IGm,pad)
+   IGm=padarray(IG,[pad pad],0,'both');
+    filtromedia(IGm,pad)
 
 %pintar imagenes
     subplot(1,2,1)
@@ -40,7 +39,7 @@ function filtromedia(IGm,pad)
                         ventana=CopIGm(i-pad:i+pad, j-pad:j+pad);
                         vecventana = reshape(ventana,1,[]);
                         orgventana = sort(vecventana);
-                        mediana = round(median(orgventana));
+                        mediana = median(orgventana);
                     
 
 %             prod=ventana .* mascara;%Producto punto de la ventana con la mascara

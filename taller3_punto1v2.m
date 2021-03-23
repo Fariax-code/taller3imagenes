@@ -1,13 +1,13 @@
 %Taller 3,Punto1 
 %Integrantes: Santiago Farias- Gabriela Rojas
-I = imread('messi.jpg');
+I = imread('img1.png');
 IG = rgb2gray(I);
 
 
 
 
 
-n=143;
+n=2;
 sigma=7;
 
 
@@ -46,21 +46,36 @@ resto=mod(n,2);%Matriz par o impar
     sumgauss=sum(gauss,'all');
     kernelgauss=gauss/sumgauss;
     
-    %Pascal
+    %Sobel
+    sobel1=[-1 -2 -1;0 0 0;1 2 1];
+    sobel2=[-1 0 -1;-2 0 2;-1 0 1];
+    
+    %Prewitt
+     prewit1=[-1 -2 -1;0 0 0;1 2 1];
+    prewit2=[-1 0 -1;-2 0 2;-1 0 1];
     
     
+    %Roberts
     
+    rob1=[-1 0;0 1];
+    rob2=[0 -1;1 0];
 
+global imagen;
+filtrando(IGm,rob1,pad,comp);
+sobelx=imagen;
+filtrando(IGm,rob2,pad,comp);
+sobely=imagen;
 
-filtrando(IGm,kernelgauss,pad,comp);
-
+sobelxy=(sobelx+sobely);
 %pintar imagenes
-    subplot(1,2,1)
+    subplot(2,2,1)
     imshow(IG);
-    subplot(1,2,2)
-    
-    global imagen;
-    imshow(imagen);
+    subplot(2,2,2)
+    imshow(sobelx);
+    subplot(2,2,3)
+    imshow(sobely);
+    subplot(2,2,4)
+    imshow(sobelxy);
     
 function filtrando(IGm,mascara,pad,comp)
     
